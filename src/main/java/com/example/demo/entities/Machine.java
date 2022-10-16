@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name="machine")
@@ -13,20 +14,24 @@ public class Machine implements Serializable {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY )
     private Integer id;
-
-    @Column(length = 45)
     private String name;
-
-    @Column(length = 45)
     private String brand;
-    @Column(length = 250)
+    @Column(name="years")
+    private Integer year;
     private String description;
-    private Integer año;
+
     @ManyToOne
     @JoinColumn(name="categoryId")
     @JsonIgnoreProperties("machines")
     private Category category;
 
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "machine")
+    @JsonIgnoreProperties({"machine", "client"})
+    private List<Message> messages;
+
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "machine")
+    @JsonIgnoreProperties({"machine", "message"})
+    private List<Reservation> reservations;
 
     public Integer getId() {
         return id;
@@ -52,6 +57,14 @@ public class Machine implements Serializable {
         this.brand = brand;
     }
 
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -60,11 +73,27 @@ public class Machine implements Serializable {
         this.description = description;
     }
 
-    public Integer getAño() {
-        return año;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setAño(Integer año) {
-        this.año = año;
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
     }
 }

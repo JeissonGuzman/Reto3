@@ -1,6 +1,8 @@
 package com.example.demo.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -12,12 +14,25 @@ public class Reservation implements Serializable {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY )
     private Integer idReservation;
-
     @Column(length = 250)
     private Date startDate;
     @Column(length = 250)
     private Date devolutionDate;
-    private String status;
+    private String status = "created";
+
+    @ManyToOne
+    @JoinColumn(name = "machineId")
+    @JsonIgnoreProperties("reservations")
+    private Machine machine;
+
+    @ManyToOne
+    @JoinColumn(name = "clientId")
+    @JsonIgnoreProperties({"reservations","messages"})
+    private Client client;
+
+    @OneToOne(cascade = CascadeType.REMOVE, mappedBy = "reservation")
+    @JsonIgnoreProperties("reservation")
+    private Score score;
 
     public Integer getIdReservation() {
         return idReservation;
@@ -49,5 +64,29 @@ public class Reservation implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Machine getMachine() {
+        return machine;
+    }
+
+    public void setMachine(Machine machine) {
+        this.machine = machine;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Score getScore() {
+        return score;
+    }
+
+    public void setScore(Score score) {
+        this.score = score;
     }
 }

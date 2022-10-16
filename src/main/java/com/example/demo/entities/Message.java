@@ -1,6 +1,8 @@
 package com.example.demo.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -11,9 +13,18 @@ public class Message implements Serializable {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY )
     private Integer idMessage;
-
     @Column(length = 250)
-    private String texto;
+    private String messageText;
+
+    @ManyToOne
+    @JoinColumn(name = "machineId")
+    @JsonIgnoreProperties({"messages", "reservations"})
+    private Machine machine;
+
+    @ManyToOne
+    @JoinColumn(name = "clientId")
+    @JsonIgnoreProperties({"messages", "reservations"})
+    private Client client;
 
     public Integer getIdMessage() {
         return idMessage;
@@ -23,11 +34,27 @@ public class Message implements Serializable {
         this.idMessage = idMessage;
     }
 
-    public String getTexto() {
-        return texto;
+    public String getMessageText() {
+        return messageText;
     }
 
-    public void setTexto(String texto) {
-        this.texto = texto;
+    public void setMessageText(String messageText) {
+        this.messageText = messageText;
+    }
+
+    public Machine getMachine() {
+        return machine;
+    }
+
+    public void setMachine(Machine machine) {
+        this.machine = machine;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 }

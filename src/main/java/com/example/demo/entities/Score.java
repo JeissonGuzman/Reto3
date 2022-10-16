@@ -1,6 +1,8 @@
 package com.example.demo.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -13,6 +15,10 @@ public class Score implements Serializable {
     private Integer idScore;
     private String messageText;
     private Integer starts;
+
+    @OneToOne
+    @JsonIgnoreProperties("score")
+    private Reservation reservation;
 
     public Integer getIdScore() {
         return idScore;
@@ -36,5 +42,13 @@ public class Score implements Serializable {
 
     public void setStarts(Integer starts) {
         this.starts = starts;
+    }
+
+    public Reservation getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
     }
 }
