@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.entities.Client;
 import com.example.demo.entities.Machine;
 import com.example.demo.service.MachineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,18 @@ public class MachineController {
     @ResponseStatus(HttpStatus.CREATED)
     public Machine save( @RequestBody Machine machine){
         return machineService.save(machine);
+    }
+
+    @PutMapping("/update")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Machine update(@RequestBody Machine machine){
+        return machineService.update(machine);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public boolean delete(@PathVariable("id") int id){
+        return machineService.deleteMachine(id);
     }
 
 }

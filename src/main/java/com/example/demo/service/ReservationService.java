@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 
+import com.example.demo.entities.Category;
 import com.example.demo.entities.Reservation;
 import com.example.demo.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,15 +36,32 @@ public class ReservationService {
         }
     }
 
-    public boolean delete (int id){
-        boolean flag = false;
-        Optional<Reservation> e = ReservationRepository.getReservation(id);
-        if(e.isPresent()){
-            ReservationRepository.delete(e.get());
-            flag = true;
+    public Reservation update(Reservation reservation){
+        if(reservation.getIdReservation()!=null){
+            Optional<Reservation> old=ReservationRepository.getReservation(reservation.getIdReservation());
+            if(old.isPresent()){
+                Reservation k=old.get();
+                if(reservation.getStartDate()!=null){
+                    k.setStartDate(reservation.getStartDate());
+                }
+                if(reservation.getDevolutionDate()!=null){
+                    k.setDevolutionDate(reservation.getDevolutionDate());
+                }
+                if(reservation.getStatus()!=null){
+                    k.setStatus(reservation.getStatus());
+                }
+                return ReservationRepository.save(k);
+            }
         }
+        return reservation;
+    }
 
-        return flag;
+    public boolean deleteReservation (int id){
+        Boolean d = getReservation(id).map(reservation -> {
+            ReservationRepository.delete(reservation);
+            return true;
+        }).orElse(false);
+        return d;
     }
 
 }

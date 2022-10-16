@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 
+import com.example.demo.entities.Reservation;
 import com.example.demo.entities.Score;
 import com.example.demo.repository.ScoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,16 +35,28 @@ public class ScoreService {
             }
         }
     }
-
-    public boolean delete (int id){
-        boolean flag = false;
-        Optional<Score> e = ScoreRepository.getScore(id);
-        if(e.isPresent()){
-            ScoreRepository.delete(e.get());
-            flag = true;
+    public Score update(Score score){
+        if(score.getIdScore()!=null){
+            Optional<Score> old=ScoreRepository.getScore(score.getIdScore());
+            if(old.isPresent()){
+                Score k=old.get();
+                if(score.getMessageText()!=null){
+                    k.setMessageText(score.getMessageText());
+                }
+                if(score.getStarts()!=null){
+                    k.setStarts(score.getStarts());
+                }
+                return ScoreRepository.save(k);
+            }
         }
-
-        return flag;
+        return score;
+    }
+    public boolean deleteScore (int id){
+        Boolean d = getScore(id).map(score -> {
+            ScoreRepository.delete(score);
+            return true;
+        }).orElse(false);
+        return d;
     }
 
 }

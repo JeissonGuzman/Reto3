@@ -21,8 +21,8 @@ public class machineRepository {
         return machineCrudRepository.save(m);
     }
 
-    public void delete (Machine m){
-        machineCrudRepository.delete(m);
+    public void delete (Machine machine){
+        machineCrudRepository.delete(machine);
     }
 
     public Optional<Machine> getMachine(int id){

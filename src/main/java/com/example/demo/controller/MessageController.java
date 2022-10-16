@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.entities.Machine;
 import com.example.demo.entities.Message;
 import com.example.demo.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,18 @@ public class MessageController {
     @ResponseStatus(HttpStatus.CREATED)
     public Message save( @RequestBody Message message){
         return MessageService.save(message);
+    }
+
+    @PutMapping("/update")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Message update(@RequestBody Message message){
+        return MessageService.update(message);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public boolean delete(@PathVariable("id") int id){
+        return MessageService.deleteMessage(id);
     }
 
 }

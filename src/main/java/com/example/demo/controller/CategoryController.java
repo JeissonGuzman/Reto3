@@ -22,10 +22,27 @@ public class CategoryController {
         return CategoryService.getAll();
     }
 
+    @GetMapping("/{id}")
+    public  Optional<Category> getCategory(@PathVariable("id") int id){
+        return CategoryService.getCategory(id);
+    }
+
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public Category save( @RequestBody Category category){
         return CategoryService.save(category);
+    }
+
+    @PutMapping("/update")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Category update(@RequestBody Category category){
+        return CategoryService.update(category);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public boolean delete(@PathVariable("id") int id){
+        return CategoryService.deleteCategory(id);
     }
 
 }

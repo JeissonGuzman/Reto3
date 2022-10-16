@@ -35,15 +35,28 @@ public class CategoryService {
         }
     }
 
-    public boolean delete (int id){
-        boolean flag = false;
-        Optional<Category> e = CategoryRepository.getCategory(id);
-        if(e.isPresent()){
-            CategoryRepository.delete(e.get());
-            flag = true;
+    public Category update(Category category){
+        if(category.getId()!=null){
+            Optional<Category> old=CategoryRepository.getCategory(category.getId());
+            if(old.isPresent()){
+                Category k=old.get();
+                if(category.getName()!=null){
+                    k.setName(category.getName());
+                }
+                if(category.getDescription()!=null){
+                    k.setDescription(category.getDescription());
+                }
+                return CategoryRepository.save(k);
+            }
         }
-
-        return flag;
+        return category;
     }
 
+    public boolean deleteCategory (int id){
+        Boolean d = getCategory(id).map(category -> {
+            CategoryRepository.delete(category);
+            return true;
+        }).orElse(false);
+        return d;
+    }
 }

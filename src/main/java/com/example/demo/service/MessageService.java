@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 
+import com.example.demo.entities.Category;
 import com.example.demo.entities.Message;
 import com.example.demo.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,15 +36,26 @@ public class MessageService {
         }
     }
 
-    public boolean delete (int id){
-        boolean flag = false;
-        Optional<Message> e = MessageRepository.getMessage(id);
-        if(e.isPresent()){
-            MessageRepository.delete(e.get());
-            flag = true;
+    public Message update(Message message){
+        if(message.getIdMessage()!=null){
+            Optional<Message> old=MessageRepository.getMessage(message.getIdMessage());
+            if(old.isPresent()){
+                Message k=old.get();
+                if(message.getMessageText()!=null){
+                    k.setMessageText(message.getMessageText());
+                }
+                return MessageRepository.save(k);
+            }
         }
+        return message;
+    }
 
-        return flag;
+    public boolean deleteMessage (int id){
+        Boolean d = getMessage(id).map(message -> {
+            MessageRepository.delete(message);
+            return true;
+        }).orElse(false);
+        return d;
     }
 
 }

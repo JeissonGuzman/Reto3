@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+
 import com.example.demo.entities.Score;
 import com.example.demo.service.ScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,18 @@ public class ScoreController {
     @ResponseStatus(HttpStatus.CREATED)
     public Score save( @RequestBody Score score){
         return ScoreService.save(score);
+    }
+
+    @PutMapping("/update")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Score update(@RequestBody Score score){
+        return ScoreService.update(score);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public boolean delete(@PathVariable("id") int id){
+        return ScoreService.deleteScore(id);
     }
 
 }

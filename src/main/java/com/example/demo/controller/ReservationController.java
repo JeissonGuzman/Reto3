@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.entities.Message;
 import com.example.demo.entities.Reservation;
 import com.example.demo.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,18 @@ public class ReservationController {
     @ResponseStatus(HttpStatus.CREATED)
     public Reservation save( @RequestBody Reservation reservation){
         return ReservationService.save(reservation);
+    }
+
+    @PutMapping("/update")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Reservation update(@RequestBody Reservation reservation){
+        return ReservationService.update(reservation);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public boolean delete(@PathVariable("id") int id){
+        return ReservationService.deleteReservation(id);
     }
 
 }

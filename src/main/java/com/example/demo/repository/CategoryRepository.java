@@ -18,12 +18,12 @@ public class CategoryRepository {
         return (List<Category>) CategoryCrudRepository.findAll();
     }
 
-    public Category save(Category m){
-        return CategoryCrudRepository.save(m);
+    public Category save(Category category){
+        return CategoryCrudRepository.save(category);
     }
 
-    public void delete (Category m){
-        CategoryCrudRepository.delete(m);
+    public void delete (Category category){
+        CategoryCrudRepository.delete(category);
     }
 
     public Optional<Category> getCategory(int id){
