@@ -20,7 +20,6 @@ public class Client implements Serializable {
     private String password;
     @Column(length = 250)
     private String name;
-        @Column(length = 250)
     private Integer age;
 
 
