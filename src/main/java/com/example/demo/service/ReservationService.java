@@ -1,12 +1,18 @@
 package com.example.demo.service;
 
 
-import com.example.demo.entities.Category;
+import com.example.demo.entities.DTOs.CountClient;
+import com.example.demo.entities.DTOs.CountStatus;
 import com.example.demo.entities.Reservation;
 import com.example.demo.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,4 +70,34 @@ public class ReservationService {
         return d;
     }
 
+    // Reto 5
+    public  List<CountClient> getTopClients(){
+        return ReservationRepository.getTopClients();
+    }
+
+    public List<Reservation> getReservationPeriod(String dateA, String dateB){
+        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd"); //2022-01-21
+        Date a = new Date();
+        Date b = new Date();
+
+        try{
+            a = parser.parse(dateA);
+            b = parser.parse(dateB);
+        } catch (ParseException exception) {
+            exception.printStackTrace();
+        }
+        if(a.before(b)){
+            return  ReservationRepository.getReservationPeriod(a,b);
+        }else {
+            return new ArrayList<>();
+        }
+    }
+
+    public CountStatus getReservationStatus(){
+        List<Reservation> completed = ReservationRepository.getReservationByStatus("completed");
+
+        List<Reservation> cancelled = ReservationRepository.getReservationByStatus("cancelled");
+
+        return  new CountStatus((long) completed.size(), (long) cancelled.size());
+    }
 }
